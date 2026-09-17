@@ -14,7 +14,15 @@ Two of the findings are negative, and the write-up reports them as such: recurre
 
 → [`almaty-heavy-metals-ml`](https://github.com/VsProger/almaty-heavy-metals-ml)
 
+**Crude oil classification from laboratory assays** — a smaller study on the open NOAA Oil Library, and mostly a lesson in checking your own results. The first version scored 98.4%; auditing it showed the label was thresholded API gravity while density sat in the feature matrix, and API is a closed-form function of density — a two-line formula with no model at all reproduces the label on 99.35% of rows. The corpus also reported every property in several units without normalisation. With the leaking columns removed and units fixed, the honest figure is 85.5% against a 53.2% baseline.
+
+→ [`crude-oil-classification`](https://github.com/VsProger/crude-oil-classification)
+
 ### Current work
+
+**AI code review assistant** — a FastAPI service that reviews GitLab merge requests with an LLM and posts findings as inline comments anchored to the diff. The engineering is mostly in the failure modes: constant-time webhook authentication, guards against the bot retriggering itself, bounded-concurrency chunking of large diffs, provider-enforced JSON with retry and backoff, deduplication of findings repeated across chunks, and a summary that states how many chunks were actually reviewed rather than hiding partial coverage.
+
+→ [`ai-code-review-assistant`](https://github.com/VsProger/ai-code-review-assistant)
 
 **Intervu** — an adaptive technical-interview platform I am designing: LLM-based extraction of claims from interview transcripts, a Bayesian competence model with time decay, and a strict separation between prediction and decision so that no score is produced during the interview itself. Currently in the design phase — 17 ADRs, an OpenAPI contract, and a PostgreSQL/pgvector schema whose invariants are enforced in the database rather than by convention.
 
@@ -27,6 +35,8 @@ Two of the findings are negative, and the write-up reports them as such: recurre
 | Project | What it is |
 |---|---|
 | [almaty-heavy-metals-ml](https://github.com/VsProger/almaty-heavy-metals-ml) | ML pipeline for air-quality forecasting: 10-model benchmark, SHAP/LIME, LSTM/GRU, quantile regression, structural-break testing |
+| [ai-code-review-assistant](https://github.com/VsProger/ai-code-review-assistant) | LLM reviewer for GitLab merge requests. Async FastAPI, diff chunking, JSON-mode output with retries, deduplicated inline comments |
+| [crude-oil-classification](https://github.com/VsProger/crude-oil-classification) | Oil grading on open NOAA assays: target-leakage audit, unit normalisation, honest baseline, Streamlit app |
 | [clipflow](https://github.com/VsProger/clipflow) | Native macOS clipboard manager. Swift 6 with strict concurrency, SwiftUI + AppKit, SwiftData. Fully local |
 | [forum](https://github.com/VsProger/forum) | Go web application with sessions, posts, comments and filtering, built on the standard library |
 | [Multi-File-Mailer](https://github.com/VsProger/Multi-File-Mailer) | Go API for bulk multipart file delivery and ZIP archiving |
@@ -42,7 +52,7 @@ Not public here: an internal Go + React dashboard I wrote and maintain — multi
 
 **ML / Data** — scikit-learn, XGBoost, CatBoost, TensorFlow/Keras, SHAP, LIME, pandas, NumPy, SciPy
 
-**Backend** — PostgreSQL, SQLite, Redis, chi, REST, GraphQL, TCP/WebSocket, OAuth2
+**Backend** — FastAPI, PostgreSQL, SQLite, Redis, chi, REST, GraphQL, TCP/WebSocket, OAuth2
 
 **Other** — Docker, Ansible, React, SwiftUI, Git
 
